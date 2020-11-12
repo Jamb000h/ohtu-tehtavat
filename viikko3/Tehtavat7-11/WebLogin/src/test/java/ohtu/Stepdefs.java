@@ -28,7 +28,21 @@ public class Stepdefs {
         driver.get(baseUrl);
         WebElement element = driver.findElement(By.linkText("register new user"));       
         element.click();
-    }        
+    }    
+
+    @Given("user with username {string} with password {string} is successfully created")
+    public void userWithUsernameAndPasswordIsSuccessfullyCreated(String username, String password) {
+        newUserIsSelected();
+        registerWith(username, password, password);
+        pageHasContent("Welcome to Ohtu Application!");
+    }
+    
+    @Given("user with username {string} and password {string} is tried to be created")
+    public void userWithUsernameAndPasswordIsUnsuccessfullyCreated(String username, String password) {
+        newUserIsSelected();
+        registerWith(username, password, password);
+        pageHasContent("username should have at least 3 characters");
+    }
     
     @When("correct username {string} and password {string} are given")
     public void correctUsernameAndPasswordAreGiven(String username, String password) {
