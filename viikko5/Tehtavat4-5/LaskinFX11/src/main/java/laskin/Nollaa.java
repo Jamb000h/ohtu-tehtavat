@@ -13,12 +13,15 @@ import javafx.scene.control.TextField;
  */
 public class Nollaa extends Komento{
     
+    private int aiempiTulos;
+    
     public Nollaa(TextField tuloskentta, TextField syotekentta, Sovelluslogiikka sovellus) {
         super(tuloskentta, syotekentta, sovellus);
     }
 
     @Override
     public void suorita() {
+        this.aiempiTulos = sovellus.tulos();
         this.sovellus.nollaa();
         syotekentta.setText("");
         tuloskentta.setText("");
@@ -26,7 +29,9 @@ public class Nollaa extends Komento{
 
     @Override
     public void peru() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.sovellus.plus(aiempiTulos);
+        syotekentta.setText("");
+        tuloskentta.setText(this.sovellus.tulos() + "");
     }
     
 }

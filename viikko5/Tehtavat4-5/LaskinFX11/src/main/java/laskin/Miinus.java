@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
  */
 public class Miinus extends Komento{
     
+    private int arvo;
+    
     public Miinus(TextField tuloskentta, TextField syotekentta, Sovelluslogiikka sovellus) {
         super(tuloskentta, syotekentta, sovellus);
     }
@@ -25,13 +27,16 @@ public class Miinus extends Komento{
         } catch (Exception e) {
         }
         this.sovellus.miinus(arvo);
+        this.arvo = arvo;
         syotekentta.setText("");
         tuloskentta.setText(this.sovellus.tulos() + "");
     }
 
     @Override
     public void peru() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.sovellus.plus(arvo);
+        syotekentta.setText("");
+        tuloskentta.setText(this.sovellus.tulos() + "");
     }
     
 }

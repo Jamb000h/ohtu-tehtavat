@@ -11,6 +11,7 @@ public class Tapahtumankuuntelija implements EventHandler {
     private Button undo;
     private Sovelluslogiikka sovellus;
     private Komentotehdas komennot;
+    private Komento edellinen = null;
 
     public Tapahtumankuuntelija(TextField tuloskentta, TextField syotekentta, Button plus, Button miinus, Button nollaa, Button undo) {
         this.undo = undo;
@@ -21,43 +22,26 @@ public class Tapahtumankuuntelija implements EventHandler {
     
     @Override
     public void handle(Event event) {
-        Komento komento = this.komennot.hae((Button)event.getTarget());
-        komento.suorita();
+        if(event.getTarget() == undo && edellinen != null) {
+            this.edellinen.peru();
+            this.edellinen = null;
+        } else {
+            Komento komento = this.komennot.hae((Button)event.getTarget());
+            komento.suorita();
+            edellinen = komento;
+        }
+        
         if ( sovellus.tulos()==0) {
             nollaa.disableProperty().set(true);
         } else {
             nollaa.disableProperty().set(false);
         }
         
-        
-//        int arvo = 0;
-// 
-//        try {
-//            arvo = Integer.parseInt(syotekentta.getText());
-//        } catch (Exception e) {
-//        }
-// 
-//        if (event.getTarget() == plus) {
-//            sovellus.plus(arvo);
-//        } else if (event.getTarget() == miinus) {
-//            sovellus.miinus(arvo);
-//        } else if (event.getTarget() == nollaa) {
-//            sovellus.nollaa();
-//        } else {
-//            System.out.println("undo pressed");
-//        }
-//        
-//        int laskunTulos = sovellus.tulos();
-//        
-//        syotekentta.setText("");
-//        tuloskentta.setText("" + sovellus.tulos());
-//        
-//        if ( sovellus.tulos()==0) {
-//            nollaa.disableProperty().set(true);
-//        } else {
-//            nollaa.disableProperty().set(false);
-//        }
-//        undo.disableProperty().set(false);
+        if ( this.edellinen == null) {
+            undo.disableProperty().set(true);
+        } else {
+            undo.disableProperty().set(false);
+        }
     }
 
 }
